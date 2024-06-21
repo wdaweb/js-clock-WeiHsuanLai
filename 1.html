@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>時鐘</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+  <style>
+    body{
+      background: black;
+      overflow: hidden;
+    }
+    /* 時鐘容器 */
+    #clock {
+      margin: auto;
+      width: 300px;
+      height: 300px;
+      /* background: gray; */
+      border: 2px solid blue;
+      border-radius: 50%;
+      position: relative;
+    }
+    
+
+    /* 時針樣式 */
+    #hour {
+      width: 20%;
+      height: 10px;
+      /* background: skyblue; */
+      border: 2px solid skyblue;
+      position: absolute;
+      left: 30%;
+      top: calc(50% - 5px);
+      border-radius: 5px;
+      transform-origin: right center;
+    }
+
+    /* 分針樣式 */
+    #minute {
+      width: 30%;
+      height: 10px;
+      /* background-color: pink; */
+      border: 2px solid pink;
+      position: absolute;
+      left: 20%;
+      top: calc(50% - 5px);
+      border-radius: 5px;
+      transform-origin: right center;
+    }
+
+    /* 秒針樣式 */
+    #second {
+      width: 45%;
+      height: 4px;
+      /* background-color: greenyellow; */
+      position: absolute;
+      left: 5%;
+      top: calc(50% - 2px);
+      border-radius: 5px;
+      transform-origin: right center;
+      z-index: 10;
+    }
+
+    /* 圓點容器 */
+    #circle {
+      position: relative;
+      width: 45%;
+      height: 4px;
+      left: 5%;
+      top: calc(50% - 2px);
+      border-radius: 5px;
+      transform-origin: right center;
+      z-index: 1;
+    }
+
+    /* 人物樣式 */
+    #man {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: conic-gradient(gray 45deg, yellow 45deg, yellow 315deg, gray 45deg);
+      display: block;
+      position: absolute;
+      top: -8.6px;
+      left: 1px;
+      animation: sec 0.3s infinite;
+      z-index: 10;
+    }
+
+    /* 小圓點樣式 */
+    .circle1 {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: yellow;
+      left: 2px;
+      top: calc(50% - 5px);
+      display: block;
+      position: absolute;
+      z-index: 0;
+    }
+
+    /* 秒針動畫 */
+    @keyframes sec {
+      from {
+        background: conic-gradient(transparent 45deg, yellow 45deg, yellow 315deg, transparent 45deg);
+      }
+      to {
+        background: conic-gradient(yellow 0 360deg);
+      }
+    }
+    #text{
+      color: white;
+      font-size: 5rem;
+      font-family: "DotGothic16", sans-serif;
+      margin: auto;
+      text-align: center;
+    }
+    #smailcircle{
+      margin: auto;
+      top: 40px;
+      left: 40px;
+      width: 220px;
+      height: 220px;
+      /* background: gray; */
+      border: 2px solid blue;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    #gif img{
+      height: 100px;
+      margin: auto;
+      text-align: center;
+      top: 350px;
+      animation:ss 12s infinite;
+    }
+    #ghost img{
+      width: 70px;
+      animation:ss2 8s infinite;
+    }
+    #blueghost{
+      margin-left: 500px;
+      animation:ss3 20s infinite;
+    }
+    #redghost{
+      margin-left: 1500px;
+      animation:ss3 18s infinite;
+  }
+  #pinkghost{
+    margin-left: 1700px;
+    animation:ss4 23s infinite;
+  }
+  #orangeghost{
+    margin-left: 300px;
+    animation:ss4 27s infinite;
+  }
+
+    @keyframes ss {
+      from {
+        transform: translateX(-500px);
+      }
+      to {
+        transform: translateX(2000px);
+      }
+    }
+    @keyframes ss2 {
+      from {
+        transform: translateX(2000px);
+      }
+      to {
+        transform: translateX(-500px);
+      }
+    }
+    @keyframes ss3 {
+      from {
+        transform: translateY(2000px);
+      }
+      to {
+        transform: translateY(-1000px);
+      }
+    }
+    @keyframes ss4 {
+      from {
+        transform: translateY(-1000px);
+      }
+      to {
+        transform: translateY(2000px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="clock">
+    <div id="hour"></div>
+    <div id="minute"></div>
+    <div id="second">
+      <div id="man"></div>
+    </div>
+    <div id="circle"></div> <!-- 這裡是放置小圓點的容器 -->
+    <div id="smailcircle"></div>
+  </div>
+  <div id="gif"><img src="./pcman.gif"></div>
+  <div id="ghost"><img src="./ghost.gif" alt=""><&&&&><img src="./oacmn.gif"></div>
+  <p id="text">00:00:00</p>
+  <div id="blueghost"><img src="./blue.gif"></div>
+  <div id="redghost"><img src="./red.gif" alt=""></div>
+  <div id="orangeghost"><img src="./orange.gif" alt=""></div>
+  <div id="pinkghost"><img src="./pink.gif" alt=""></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const clock = document.getElementById('clock');
+      const circleContainer = document.getElementById('circle');
+
+      // 函式：生成和定位小圓點
+      function createCircles() {
+        for (let i = 0; i < 60; i++) {
+          const circle = document.createElement('div');
+          circle.className = 'circle1';
+          circle.style.transform = `rotate(${i * 6}deg) translate(125px)`; // 每隔6度旋轉一個小圓點
+          circle.style.left=`137px`
+          circle.style.top=`4px`
+          circleContainer.appendChild(circle);
+        }
+      }
+
+      createCircles(); // 初始化時生成小圓點
+      setInterval(createCircles, 60000);
+
+      // 函式：更新時鐘時間
+      const updateClock = function () {
+        const date = new Date();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        const second = date.getSeconds();
+        const mill = date.getMilliseconds();
+        document.getElementById('hour').style.transform = `rotate(${hour * 30 + 90}deg)`; // 每小時30度
+        document.getElementById('minute').style.transform = `rotate(${minute * 6 + 90}deg)`; // 每分鐘6度
+        document.getElementById('second').style.transform = `rotate(${second * 6 + 90 + mill / 1000 * 6}deg)`; // 每秒6度
+        document.getElementById('text').textContent = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`;
+      };
+
+      setInterval(updateClock, 10); // 每10毫秒更新一次時鐘
+      updateClock(); // 初始化時更新一次時鐘
+
+      // 函式：檢查兩個元素是否碰撞
+      function isColliding(circle1, man) {
+        const rect1 = circle1.getBoundingClientRect();
+        const rect2 = man.getBoundingClientRect();
+        return !(rect1.right < rect2.left || rect1.left > rect2.right || rect1.bottom < rect2.top || rect1.top > rect2.bottom);
+      }
+
+      const circle1 = document.querySelectorAll('.circle1'); // 取得所有小圓點的集合
+      const man = document.querySelector('#man'); // 取得人物元素
+
+      // 每秒檢查一次碰撞
+      setInterval(() => {
+        circle1.forEach(circle => {
+          if (isColliding(circle, man)) {
+            console.log('小圓點和人物碰撞了');
+            circle.style.display = 'none';
+          } else {
+            console.log('小圓點和人物沒有碰撞');
+          }
+        });
+      }, 2000);
+    });
+  </script>
+</body>
+
+</html>
